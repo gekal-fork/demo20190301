@@ -26,4 +26,17 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile "org.springframework.boot:spring-boot-starter-validation"
+	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor "org.seasar.doma.boot:doma-spring-boot-starter:1.1.1"
+	compile("org.seasar.doma.boot:doma-spring-boot-starter:1.1.1") {
+		exclude group: "org.springframework.boot"
+	}
+	compile 'org.apache.commons:commons-lang3'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+
 }
+apply plugin: 'idea'
+idea.module.inheritOutputDirs = true
+processResources.destinationDir = compileJava.destinationDir
+compileJava.dependsOn processResources
