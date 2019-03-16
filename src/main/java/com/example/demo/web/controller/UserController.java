@@ -1,30 +1,52 @@
 package com.example.demo.web.controller;
 
-import com.example.demo.dao.UserDao;
-import com.example.demo.dto.User;
+import com.example.demo.common.controller.BaseController;
+import com.example.demo.domain.dao.UserDao;
+import com.example.demo.domain.dto.User;
+import com.example.demo.domain.validation.UserFormValidator;
 import com.example.demo.service.UserServiceImpl;
 import com.example.demo.web.form.UserForm;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/user")
-public class UserController {
+@Slf4j
+public class UserController extends BaseController {
+
+    @Autowired
+    UserFormValidator userFormValidator;
+
+    @InitBinder("userForm")
+    public void validatorBinder(WebDataBinder binder){
+        binder.addValidators(userFormValidator);
+    }
+
     @Autowired
     UserDao userDao;
 
-    @ModelAttribute
-    UserForm setupForm(){return new UserForm();}
+    @Autowired
+    UserServiceImpl userService;
 
-    @GetMapping("/index")
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @ModelAttribute("userForm")
+    UserForm userForm(){return new UserForm();}
+
+    @RequestMapping("/index")
     public String index(Model model){
         List<User> user = userDao.selectAll();
         //modelへ詰める
@@ -33,10 +55,33 @@ public class UserController {
         return "user/index";
     }
 
-    @GetMapping("/new")
-        public String newUser(){
+    @RequestMapping("/new")
+    public String newUser(){
             return "user/new";
-        }
+    }
+
+
+    @RequestMapping("/user/create")
+    public String createUser(@Validated @ModelAttribute("userForm") UserForm userForm, BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes){
+
+            // 入力チェックエラーがある場合は、元の画面にもどる
+            if (bindingResult.hasErrors()) {
+                return "redirect:/user/new";
+            }
+            // 入力値からDTOを作成する
+            val inputUser = modelMapper.map(userForm, User.class);
+            val password = userForm.getPassword();
+
+            // パスワードをハッシュ化する
+            inputUser.setPassword(passwordEncoder.encode(password));
+
+            // 登録する
+            val createdUser = userService.create(inputUser);
+
+            return "redirect:/index";
+
+    }
 
 
 

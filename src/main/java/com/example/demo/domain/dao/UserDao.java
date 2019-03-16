@@ -1,16 +1,14 @@
-package com.example.demo.dao;
+package com.example.demo.domain.dao;
 
-import com.example.demo.dto.User;
+import com.example.demo.domain.dto.User;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
-import org.seasar.doma.SelectType;
 import org.seasar.doma.boot.ConfigAutowireable;
-import org.seasar.doma.jdbc.SelectOptions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Optional;
 
 @Dao
 @ConfigAutowireable
@@ -21,12 +19,13 @@ public interface UserDao {
     @Select
     List<User> selectAll();
 
-    //@Select
-    //List<User> selectOne(Integer id);
+    @Select
+    Optional<User> select(User user);
 
-    //@Insert
-    //@Transactional
-    //List<User> insert(User user);
+
+    @Insert
+    @Transactional
+    int insert(User user);
 
 
 }
