@@ -82,7 +82,7 @@ public class DefaultEntityListener<ENTITY> implements EntityListener<ENTITY> {
      * @param dto
      * @return
      */
-    protected List<Object> getIds(DomaDto dto) {
+    protected List<Object> getIds(Dto dto) {
         return ReflectionUtils.findWithAnnotation(dto.getClass(), Id.class)
                 .map(f -> ReflectionUtils.getFieldValue(f, dto)).collect(toList());
     }
