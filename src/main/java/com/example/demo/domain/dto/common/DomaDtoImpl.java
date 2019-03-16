@@ -1,18 +1,17 @@
-package com.example.demo.domain.dto;
+package com.example.demo.domain.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Version;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(listener = DefaultEntityListener.class)// 自動的にシステム制御項目を更新するためにリスナーを指定する
 @Data
-public class DomaDto implements Serializable {
+public abstract class DomaDtoImpl implements DomaDto,Serializable {
 
     // 作成者
     @JsonIgnore
@@ -44,9 +43,10 @@ public class DomaDto implements Serializable {
     @Column
     private LocalDateTime deleted_at;
 
-    //バージョン
+    // 楽観的排他制御で使用する改定番号
+    @Version
+    @Column(name = "version")
     @JsonIgnore
-    @Column
-    private int version;
+    Integer version;
 
 }

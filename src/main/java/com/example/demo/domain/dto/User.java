@@ -1,25 +1,26 @@
 package com.example.demo.domain.dto;
 
+import com.example.demo.domain.dto.common.DomaDtoImpl;
 import lombok.Data;
 import org.seasar.doma.*;
 
 @Entity
 @Data
 @Table(name = "users")
-public class User extends DomaDto{
+public class User extends DomaDtoImpl {
     //自動採番設定
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @Column
-    private String name;
+    String name;
 
     @Column
-    private String email;
+    String email;
 
     @Column
-    private String password;
+    String password;
 
 }

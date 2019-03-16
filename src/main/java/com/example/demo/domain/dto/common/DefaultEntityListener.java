@@ -1,7 +1,6 @@
-package com.example.demo.domain.dto;
+package com.example.demo.domain.dto.common;
 
 import com.example.demo.common.utils.ReflectionUtils;
-import com.example.demo.domain.dto.DomaDto;
 import com.example.demo.domain.exception.DoubleSubmitErrorException;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
