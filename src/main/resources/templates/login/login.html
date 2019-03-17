@@ -9,7 +9,7 @@
 <div th:if="${param.error}" class="alert alert-danger">
     ユーザー名またはパスワードが正しくありません。
 </div>
-<form th:action = "@{/login}" action="../user/index.html" th:object = "${loginForm}" method="post">
+<form th:action = "@{/login}" action="../user/index.html" th:object = "${login}" method="post">
     <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error'">
         <label for="email" class="control-label">email</label>
         <input id="email" type="text" class="form-control" th:field="*{email}" name="email">

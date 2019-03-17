@@ -1,5 +1,6 @@
 package com.example.demo.web.controller;
 
+import com.example.demo.common.controller.AbstractHtmlController;
 import com.example.demo.common.controller.BaseController;
 import com.example.demo.web.form.LoginForm;
 import org.springframework.stereotype.Controller;
@@ -12,17 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class LoginController extends BaseController {
+public class LoginController extends AbstractHtmlController {
+
+    @Override
+    public String getFunctionName() {
+        return "A_LOGIN";
+    }
 
     @ModelAttribute
     LoginForm loginForm(){return new LoginForm();}
     /**
      * ログイン画面表示
-     * @return
+     * @return getメソッドの時はログイン画面を表示する
      */
-    @GetMapping("/loginForm")
+    @GetMapping("/login")
     public String loginFrom(){
-        return "login/loginForm";
+        return "login/login";
     }
 
     /**
@@ -36,7 +42,7 @@ public class LoginController extends BaseController {
     public String index(@Validated @ModelAttribute LoginForm form, BindingResult br) {
         // 入力チェックエラーがある場合は、元の画面にもどる
         if (br.hasErrors()) {
-            return "login/loginForm";
+            return "login/login";
         }
         //20190309入力チェックが通った場合は、SecurityConfigで設定した認証処理にフォワードする
         //20190309Postメソッドでなければいけないのでforwardを使う必要がある
@@ -49,6 +55,8 @@ public class LoginController extends BaseController {
     @PostMapping("/success")
     public String loginsuccess(@ModelAttribute LoginForm loginForm, RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("msg","loginSuccess");
-        return "login/Success";
+        return "login/success";
     }
+
+
 }
