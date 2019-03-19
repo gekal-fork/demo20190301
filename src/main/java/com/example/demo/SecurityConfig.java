@@ -11,9 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
+
+import static com.example.demo.common.WebConst.*;
 
 @Configuration
 @EnableWebSecurity
@@ -48,29 +49,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)//
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/loginForm").permitAll()
-                .antMatchers("/account/**").permitAll()
-                .antMatchers("/new").permitAll()//test用
-                .antMatchers("/index").permitAll()//test用
-                .antMatchers("/user/create").permitAll()//test用
+                .antMatchers(LOGINFORM_URL).permitAll()//ログインフォーム
+                .antMatchers("/user/**").permitAll()
+                .antMatchers("/new").permitAll()//test用(ユーザ登録)
+                .antMatchers("/index").permitAll()//test用(ユーザ登録後の遷移画面）
+                .antMatchers("/user/create").permitAll()//test用機能
                 .anyRequest().authenticated();
         http.formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/loginForm")
-                .failureUrl("/loginForm?error")
+                .loginProcessingUrl(LOGIN_PROCESSING_URL)
+                .loginPage(LOGINFORM_URL)
+                .failureUrl("/login?error")
                 .successForwardUrl("/success")
                 .usernameParameter("email")
                 .passwordParameter("password");
         http.logout()
                 .logoutUrl("/logout**")
-                .logoutSuccessUrl("/loginForm");
+                .logoutSuccessUrl("/login");
     }
 
 

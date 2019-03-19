@@ -1,2 +1,2 @@
-/*INSERT INTO users(name, email, password, created_by, created_at) VALUES
-('yosuke','test@sample.com', '$2a$06$hY5MzfruCds1t5uFLzrlBuw3HcrEGeysr9xJE4Cml5xEOVf425pmK', 'none', NOW());
+INSERT INTO users(user_id,name, email, password, created_by, created_at) VALUES
+(1,'aaa','aaa@mail.com', '$2a$10$OUaYoot9u8kEstE.fKF48Or4J/zHgFYMrUbUnvrYC71irQ.WaH2T6', 'none', NOW());

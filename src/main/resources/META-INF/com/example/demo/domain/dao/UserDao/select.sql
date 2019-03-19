@@ -1,5 +1,6 @@
 SELECT
     user_id
+    ,name
     ,email
     ,password
     ,created_by
@@ -17,5 +18,5 @@ WHERE
 AND user_id = /* user.id */1
 /*%end*/
 /*%if user.email != null */
-AND email = /* user.email */'aaaa@bbbb.com'
+AND email = /* user.email */'aaa@email.com'
 /*%end*/

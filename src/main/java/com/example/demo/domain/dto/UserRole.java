@@ -1,12 +1,13 @@
 package com.example.demo.domain.dto;
 
+import com.example.demo.domain.dto.common.DomaDtoImpl;
 import lombok.Data;
 import org.seasar.doma.*;
 
 @Table(name = "user_roles")
 @Entity
 @Data
-public class UserRole {
+public class UserRole extends DomaDtoImpl {
 
     @Id
     @Column(name = "user_role_id")
