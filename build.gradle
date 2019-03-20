@@ -38,10 +38,10 @@ dependencies {
 		exclude group: "org.springframework.boot"
 	}
 	compile 'org.apache.commons:commons-lang3'
+	//spring security
 	compile 'org.springframework.boot:spring-boot-starter-security'
-	// thymeleaf
+	// thymeleaf(ロール/権限によるthymeleafのテンプレートの制御)
 	compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity5"
-
 	// modelmapper
 	compile "org.modelmapper:modelmapper:0.7.5"
 
